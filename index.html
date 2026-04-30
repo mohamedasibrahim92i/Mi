@@ -1,0 +1,1427 @@
+
+# Let's create a complete, single-file HTML website for the user's service business
+# targeting the Indonesian market (hotels/hostels, tech support, language teaching)
+
+website_html = """<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MI-Services | Solusi Teknologi & Jaringan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a5276;
+            --primary-dark: #154360;
+            --accent: #e67e22;
+            --accent-light: #f39c12;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --text-dark: #2c3e50;
+            --text-muted: #5d6d7e;
+            --border: #e5e8e8;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        /* Language Switcher */
+        .lang-bar {
+            background: var(--primary-dark);
+            padding: 8px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .lang-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .lang-btn {
+            background: transparent;
+            border: 1.5px solid rgba(255,255,255,0.4);
+            color: rgba(255,255,255,0.8);
+            padding: 5px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+        
+        .lang-btn i {
+            font-size: 0.9rem;
+        }
+        
+        /* Navigation */
+        nav {
+            background: var(--bg-white);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 42px;
+            z-index: 999;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 160px 20px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 35px;
+            font-weight: 300;
+        }
+        
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 35px;
+        }
+        
+        .badge {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 16px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+        }
+        
+        .cta-btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(230, 126, 34, 0.5);
+        }
+        
+        /* Sections */
+        section {
+            padding: 80px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .divider {
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .service-icon {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            color: white;
+            font-size: 1.6rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        
+        .service-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .service-features li {
+            padding: 6px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .service-features li i {
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+        
+        .price-hint {
+            display: inline-block;
+            background: #e8f6f3;
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        /* Remote Support Section */
+        .remote-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e8f6f3 100%);
+        }
+        
+        .remote-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .remote-visual {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        
+        .remote-visual i {
+            font-size: 5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .remote-visual h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .remote-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+        
+        .remote-info p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+        
+        .remote-benefits {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .benefit-item i {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+        
+        .benefit-item span {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+        
+        /* Language Teaching Section */
+        .language-section {
+            background: var(--bg-white);
+        }
+        
+        .lang-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .lang-card {
+            background: var(--bg-light);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+        }
+        
+        .lang-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .lang-card-header {
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .lang-card-header.arabic {
+            background: linear-gradient(135deg, #1a5276, #2e86ab);
+        }
+        
+        .lang-card-header.english {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+        }
+        
+        .lang-card-header i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .lang-card-header h3 {
+            font-size: 1.5rem;
+        }
+        
+        .lang-card-body {
+            padding: 30px;
+        }
+        
+        .lang-card-body ul {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .lang-card-body ul li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .lang-card-body ul li:last-child {
+            border-bottom: none;
+        }
+        
+        .lang-card-body ul li i {
+            color: var(--accent);
+        }
+        
+        .rate-tag {
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        /* Why Choose Us */
+        .why-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+        
+        .why-section .section-header h2,
+        .why-section .section-header p {
+            color: white;
+        }
+        
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .why-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 35px 25px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .why-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-3px);
+        }
+        
+        .why-card i {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent-light);
+        }
+        
+        .why-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        
+        .why-card p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+        
+        /* Process Section */
+        .process-section {
+            background: var(--bg-light);
+        }
+        
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 15%;
+            right: 15%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            z-index: 0;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--bg-white);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+        
+        .step h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+        
+        .step p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            background: var(--bg-white);
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+        
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info > p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+        
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-method:hover {
+            background: #e8f6f3;
+            transform: translateX(5px);
+        }
+        
+        .contact-method i {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        
+        .contact-method div h4 {
+            font-size: 1rem;
+            margin-bottom: 3px;
+        }
+        
+        .contact-method div p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .contact-form {
+            background: var(--bg-light);
+            padding: 40px;
+            border-radius: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+            background: var(--bg-white);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: rgba(255,255,255,0.8);
+            padding: 50px 20px 25px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-brand h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-brand p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+        
+        .footer-links h4 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links ul li a:hover {
+            color: var(--accent-light);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 25px;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .remote-content,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .remote-benefits {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Hidden class for language switching */
+        .lang-en, .lang-id {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="lang-bar">
+        <div class="lang-container">
+            <button class="lang-btn active" onclick="setLanguage('en')" id="btn-en">
+                <i class="fas fa-globe"></i> English
+            </button>
+            <button class="lang-btn" onclick="setLanguage('id')" id="btn-id">
+                <i class="fas fa-globe"></i> Bahasa Indonesia
+            </button>
+        </div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-network-wired"></i>
+                <span class="lang-en">MI-Services</span>
+                <span class="lang-id" style="display:none;">MI-Layanan</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#services" class="lang-en">Services</a><a href="#services" class="lang-id" style="display:none;">Layanan</a></li>
+                <li><a href="#remote" class="lang-en">Remote Support</a><a href="#remote" class="lang-id" style="display:none;">Dukungan Jarak Jauh</a></li>
+                <li><a href="#languages" class="lang-en">Language Classes</a><a href="#languages" class="lang-id" style="display:none;">Kelas Bahasa</a></li>
+                <li><a href="#contact" class="lang-en">Contact</a><a href="#contact" class="lang-id" style="display:none;">Kontak</a></li>
+            </ul>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="lang-en">Your Local Tech Problem Solver</h1>
+            <h1 class="lang-id" style="display:none;">Solusi Teknologi di Sekitar Anda</h1>
+            
+            <p class="lang-en">Reliable IT support for hotels, hostels, and small businesses. One call away when you need help.</p>
+            <p class="lang-id" style="display:none;">Dukungan IT yang dapat diandalkan untuk hotel, hostel, dan bisnis kecil. Hanya satu panggilan saat Anda membutuhkan bantuan.</p>
+            
+            <div class="hero-badges">
+                <span class="badge lang-en"><i class="fas fa-wifi"></i> WiFi Solutions</span>
+                <span class="badge lang-id" style="display:none;"><i class="fas fa-wifi"></i> Solusi WiFi</span>
+                
+                <span class="badge lang-en"><i class="fas fa-code"></i> Website Building</span>
+                <span class="badge lang-id" style="display:none;"><i class="fas fa-code"></i> Pembuatan Website</span>
+                
+                <span class="badge lang-en"><i class="fas fa-headset"></i> Remote Support</span>
+                <span class="badge lang-id" style="display:none;"><i class="fas fa-headset"></i> Dukungan Jarak Jauh</span>
+                
+                <span class="badge lang-en"><i class="fas fa-language"></i> Language Teaching</span>
+                <span class="badge lang-id" style="display:none;"><i class="fas fa-language"></i> Pengajaran Bahasa</span>
+            </div>
+            
+            <a href="#contact" class="cta-btn lang-en">Get Help Now</a>
+            <a href="#contact" class="cta-btn lang-id" style="display:none;">Dapatkan Bantuan</a>
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="lang-en">What I Can Help You With</h2>
+                <h2 class="lang-id" style="display:none;">Layanan yang Saya Tawarkan</h2>
+                <p class="lang-en">Practical tech solutions for hospitality businesses and individuals</p>
+                <p class="lang-id" style="display:none;">Solusi teknologi praktis untuk bisnis perhotelan dan individu</p>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="services-grid">
+                <!-- WiFi Solutions -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-wifi"></i></div>
+                    <h3 class="lang-en">WiFi & Network Solutions</h3>
+                    <h3 class="lang-id" style="display:none;">Solusi WiFi & Jaringan</h3>
+                    <p class="lang-en">Fix slow connections, expand coverage, and secure your network for guests and staff.</p>
+                    <p class="lang-id" style="display:none;">Perbaiki koneksi lambat, perluas jangkauan, dan amankan jaringan untuk tamu dan staf.</p>
+                    <ul class="service-features">
+                        <li class="lang-en"><i class="fas fa-check"></i> WiFi troubleshooting & repair</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Perbaikan & pemecahan masalah WiFi</li>
+                        <li class="lang-en"><i class="fas fa-check"></i> Coverage expansion for large areas</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Perluasan jangkauan untuk area besar</li>
+                        <li class="lang-en"><i class="fas fa-check"></i> Guest network setup & security</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Pengaturan jaringan tamu & keamanan</li>
+                        <li class="lang-en"><i class="fas fa-check"></i> Router & access point installation</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Instalasi router & access point</li>
+                    </ul>
+                    <span class="price-hint lang-en"><i class="fas fa-tag"></i> Affordable rates — let's talk</span>
+                    <span class="price-hint lang-id" style="display:none;"><i class="fas fa-tag"></i> Harga terjangkau — mari bicara</span>
+                </div>
+                
+                <!-- Website Building -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+                    <h3 class="lang-en">Website for Your Business</h3>
+                    <h3 class="lang-id" style="display:none;">Website untuk Bisnis Anda</h3>
+                    <p class="lang-en">Professional websites for hotels, hostels, cafes, and local businesses to attract more customers online.</p>
+                    <p class="lang-id" style="display:none;">Website profesional untuk hotel, hostel, kafe, dan bisnis lokal untuk menarik lebih banyak pelanggan online.</p>
+                    <ul class="service-features">
+                        <li class="lang-en"><i class="fas fa-check"></i> Simple, fast-loading design</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Desain simpel & cepat dimuat</li>
+                        <li class="lang-en"><i class="fas fa-check"></i> Mobile-friendly & responsive</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Ramah mobile & responsif</li>
+                        <li class="lang-en"><i class="fas fa-check"></i> Booking/contact integration</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Integrasi pemesanan/kontak</li>
+                        <li class="lang-en"><i class="fas fa-check"></i> Basic SEO setup included</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Pengaturan SEO dasar termasuk</li>
+                    </ul>
+                    <span class="price-hint lang-en"><i class="fas fa-tag"></i> Budget-friendly packages</span>
+                    <span class="price-hint lang-id" style="display:none;"><i class="fas fa-tag"></i> Paket ramah kantong</span>
+                </div>
+                
+                <!-- General IT Support -->
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-tools"></i></div>
+                    <h3 class="lang-en">General IT Support</h3>
+                    <h3 class="lang-id" style="display:none;">Dukungan IT Umum</h3>
+                    <p class="lang-en">Day-to-day tech problems solved quickly — computers, printers, software, and more.</p>
+                    <p class="lang-id" style="display:none;">Masalah teknologi sehari-hari diselesaikan dengan cepat — komputer, printer, software, dan lainnya.</p>
+                    <ul class="service-features">
+                        <li class="lang-en"><i class="fas fa-check"></i> Computer troubleshooting & repair</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Perbaikan & pemecahan masalah komputer</li>
+                        <li class="lang-en"><i class="fas fa-check"></i> Software installation & setup</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Instalasi & pengaturan software</li>
+                        <li class="lang-en"><i class="fas fa-check"></i> Printer & peripheral issues</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Masalah printer & perangkat tambahan</li>
+                        <li class="lang-en"><i class="fas fa-check"></i> Data backup & recovery</li>
+                        <li class="lang-id" style="display:none;"><i class="fas fa-check"></i> Backup & pemulihan data</li>
+                    </ul>
+                    <span class="price-hint lang-en"><i class="fas fa-tag"></i> Fair pricing, no hidden fees</span>
+                    <span class="price-hint lang-id" style="display:none;"><i class="fas fa-tag"></i> Harga wajar, tanpa biaya tersembunyi</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Remote Support Section -->
+    <section id="remote" class="remote-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="lang-en">Remote IT Support</h2>
+                <h2 class="lang-id" style="display:none;">Dukungan IT Jarak Jauh</h2>
+                <p class="lang-en">Get help without leaving your location. Fast, secure, and convenient.</p>
+                <p class="lang-id" style="display:none;">Dapatkan bantuan tanpa meninggalkan lokasi Anda. Cepat, aman, dan nyaman.</p>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="remote-content">
+                <div class="remote-visual">
+                    <i class="fas fa-desktop"></i>
+                    <h3 class="lang-en">Distance is Not a Problem</h3>
+                    <h3 class="lang-id" style="display:none;">Jarak Bukan Masalah</h3>
+                    <p class="lang-en">Many issues can be fixed remotely through secure screen sharing and remote access tools.</p>
+                    <p class="lang-id" style="display:none;">Banyak masalah dapat diperbaiki dari jarak jauh melalui screen sharing dan alat akses jarak jauh yang aman.</p>
+                </div>
+                
+                <div class="remote-info">
+                    <h3 class="lang-en">How Remote Support Works</h3>
+                    <h3 class="lang-id" style="display:none;">Cara Kerja Dukungan Jarak Jauh</h3>
+                    <p class="lang-en">I connect to your computer securely, diagnose the issue, and fix it while you watch. No travel time, no waiting.</p>
+                    <p class="lang-id" style="display:none;">Saya terhubung ke komputer Anda dengan aman, mendiagnosis masalah, dan memperbaikinya sambil Anda menonton. Tanpa waktu perjalanan, tanpa menunggu.</p>
+                    
+                    <div class="remote-benefits">
+                        <div class="benefit-item">
+                            <i class="fas fa-bolt"></i>
+                            <span class="lang-en">Instant response</span>
+                            <span class="lang-id" style="display:none;">Respons instan</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span class="lang-en">Secure connection</span>
+                            <span class="lang-id" style="display:none;">Koneksi aman</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-wallet"></i>
+                            <span class="lang-en">Lower cost than on-site</span>
+                            <span class="lang-id" style="display:none;">Biaya lebih rendah dari kunjungan</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-clock"></i>
+                            <span class="lang-en">Available evenings & weekends</span>
+                            <span class="lang-id" style="display:none;">Tersedia malam & akhir pekan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Language Teaching Section -->
+    <section id="languages" class="language-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="lang-en">Learn English & Arabic</h2>
+                <h2 class="lang-id" style="display:none;">Belajar Bahasa Inggris & Arab</h2>
+                <p class="lang-en">Personalized language lessons at a rate that fits your budget. Online or in-person.</p>
+                <p class="lang-id" style="display:none;">Pelajaran bahasa yang dipersonalisasi dengan tarif yang sesuai anggaran Anda. Online atau tatap muka.</p>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="lang-cards">
+                <div class="lang-card">
+                    <div class="lang-card-header english">
+                        <i class="fas fa-language"></i>
+                        <h3>English Classes</h3>
+                    </div>
+                    <div class="lang-card-body">
+                        <ul>
+                            <li class="lang-en"><i class="fas fa-check-circle"></i> Conversational English for daily use</li>
+                            <li class="lang-id" style="display:none;"><i class="fas fa-check-circle"></i> Bahasa Inggris percakapan untuk sehari-hari</li>
+                            
+                            <li class="lang-en"><i class="fas fa-check-circle"></i> Business & hospitality English</li>
+                            <li class="lang-id" style="display:none;"><i class="fas fa-check-circle"></i> Bahasa Inggris bisnis & perhotelan</li>
+                            
+                            <li class="lang-en"><i class="fas fa-check-circle"></i> Grammar & writing skills</li>
+                            <li class="lang-id" style="display:none;"><i class="fas fa-check-circle"></i> Tata bahasa & keterampilan menulis</li>
+                            
+                            <li class="lang-en"><i class="fas fa-check-circle"></i> Flexible scheduling</li>
+                            <li class="lang-id" style="display:none;"><i class="fas fa-check-circle"></i> Jadwal fleksibel</li>
+                            
+                            <li class="lang-en"><i class="fas fa-check-circle"></i> One-on-one or small groups</li>
+                            <li class="lang-id" style="display:none;"><i class="fas fa-check-circle"></i> Privat atau kelompok kecil</li>
+                        </ul>
+                        <div class="rate-tag lang-en">Starting from a very affordable hourly rate</div>
+                        <div class="rate-tag lang-id" style="display:none;">Dimulai dari tarif per jam yang sangat terjangkau</div>
+                    </div>
+                </div>
+                
+                <div class="lang-card">
+                    <div class="lang-card-header arabic">
+                        <i class="fas fa-book-open"></i>
+                        <h3>Arabic Classes</h3>
+                    </div>
+                    <div class="lang-card-body">
+                        <ul>
+                            <li class="lang-en"><i class="fas fa-check-circle"></i> Modern Standard Arabic (MSA)</li>
+                            <li class="lang-id" style="display:none;"><i class="fas fa-check-circle"></i> Bahasa Arab Standar Modern (MSA)</li>
+                            
+                            <li class="lang-en"><i class="fas fa-check-circle"></i> Quranic Arabic basics</li>
+                            <li class="lang-id" style="display:none;"><i class="fas fa-check-circle"></i> Dasar-dasar Bahasa Arab Al-Quran</li>
+                            
+                            <li class="lang-en"><i class="fas fa-check-circle"></i> Reading & pronunciation</li>
+                            <li class="lang-id" style="display:none;"><i class="fas fa-check-circle"></i> Membaca & pelafalan</li>
+                            
+                            <li class="lang-en"><i class="fas fa-check-circle"></i> Beginner to intermediate levels</li>
+                            <li class="lang-id" style="display:none;"><i class="fas fa-check-circle"></i> Level pemula hingga menengah</li>
+                            
+                            <li class="lang-en"><i class="fas fa-check-circle"></i> Cultural context included</li>
+                            <li class="lang-id" style="display:none;"><i class="fas fa-check-circle"></i> Konteks budaya termasuk</li>
+                        </ul>
+                        <div class="rate-tag lang-en">Budget-friendly hourly rates available</div>
+                        <div class="rate-tag lang-id" style="display:none;">Tarif per jam yang ramah kantong tersedia</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Why Choose Us -->
+    <section class="why-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="lang-en">Why Work With Me</h2>
+                <h2 class="lang-id" style="display:none;">Mengapa Bekerja Bersama Saya</h2>
+                <p class="lang-en">Straightforward, honest service without the corporate markup</p>
+                <p class="lang-id" style="display:none;">Layanan yang jujur dan lugas tanpa markup perusahaan</p>
+                <div class="divider" style="background: var(--accent-light);"></div>
+            </div>
+            
+            <div class="why-grid">
+                <div class="why-card">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <h3 class="lang-en">Honest Pricing</h3>
+                    <h3 class="lang-id" style="display:none;">Harga Jujur</h3>
+                    <p class="lang-en">No surprise bills. We agree on the cost before any work begins. Small business-friendly rates.</p>
+                    <p class="lang-id" style="display:none;">Tidak ada tagihan mengejutkan. Kita sepakati biaya sebelum pekerjaan dimulai. Tarif ramah bisnis kecil.</p>
+                </div>
+                
+                <div class="why-card">
+                    <i class="fas fa-user-check"></i>
+                    <h3 class="lang-en">Personal Attention</h3>
+                    <h3 class="lang-id" style="display:none;">Perhatian Pribadi</h3>
+                    <p class="lang-en">You talk directly to the person doing the work. No middlemen, no confusion, no runaround.</p>
+                    <p class="lang-id" style="display:none;">Anda berbicara langsung dengan orang yang mengerjakan. Tanpa perantara, tanpa kebingungan.</p>
+                </div>
+                
+                <div class="why-card">
+                    <i class="fas fa-clock"></i>
+                    <h3 class="lang-en">Quick Response</h3>
+                    <h3 class="lang-id" style="display:none;">Respons Cepat</h3>
+                    <p class="lang-en">I understand that downtime costs money. I respond fast and work efficiently to get you back online.</p>
+                    <p class="lang-id" style="display:none;">Saya paham waktu henti merugikan. Saya merespons cepat dan bekerja efisien.</p>
+                </div>
+                
+                <div class="why-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3 class="lang-en">Local Understanding</h3>
+                    <h3 class="lang-id" style="display:none;">Pemahaman Lokal</h3>
+                    <p class="lang-en">I understand the Indonesian market, local infrastructure challenges, and how to work within your budget.</p>
+                    <p class="lang-id" style="display:none;">Saya memahami pasar Indonesia, tantangan infrastruktur lokal, dan cara bekerja sesuai anggaran Anda.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="lang-en">How It Works</h2>
+                <h2 class="lang-id" style="display:none;">Cara Kerjanya</h2>
+                <p class="lang-en">Simple steps from your first message to problem solved</p>
+                <p class="lang-id" style="display:none;">Langkah sederhana dari pesan pertama hingga masalah terselesaikan</p>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4 class="lang-en">Contact Me</h4>
+                    <h4 class="lang-id" style="display:none;">Hubungi Saya</h4>
+                    <p class="lang-en">Send a message via WhatsApp or email describing your issue</p>
+                    <p class="lang-id" style="display:none;">Kirim pesan via WhatsApp atau email menjelaskan masalah Anda</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4 class="lang-en">Free Assessment</h4>
+                    <h4 class="lang-id" style="display:none;">Penilaian Gratis</h4>
+                    <p class="lang-en">I evaluate the problem and give you a clear, fair quote</p>
+                    <p class="lang-id" style="display:none;">Saya evaluasi masalah dan berikan penawaran yang jelas & wajar</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4 class="lang-en">Get It Done</h4>
+                    <h4 class="lang-id" style="display:none;">Selesaikan</h4>
+                    <p class="lang-en">I fix the issue on-site or remotely, depending on what works best</p>
+                    <p class="lang-id" style="display:none;">Saya perbaiki masalah di lokasi atau jarak jauh, sesuai yang terbaik</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4 class="lang-en">Pay After</h4>
+                    <h4 class="lang-id" style="display:none;">Bayar Setelahnya</h4>
+                    <p class="lang-en">You only pay when the work is completed to your satisfaction</p>
+                    <p class="lang-id" style="display:none;">Anda bayar hanya setelah pekerjaan selesai sesuai kepuasan Anda</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="lang-en">Let's Solve Your Problem</h2>
+                <h2 class="lang-id" style="display:none;">Mari Selesaikan Masalah Anda</h2>
+                <p class="lang-en">Reach out today — no obligation, just a friendly conversation about what you need</p>
+                <p class="lang-id" style="display:none;">Hubungi hari ini — tanpa kewajiban, hanya percakapan ramah tentang apa yang Anda butuhkan</p>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3 class="lang-en">Get in Touch</h3>
+                    <h3 class="lang-id" style="display:none;">Hubungi Saya</h3>
+                    <p class="lang-en">I'm based in Indonesia and available for both local on-site work and remote support across the country.</p>
+                    <p class="lang-id" style="display:none;">Saya berbasis di Indonesia dan tersedia untuk kerja lokal di lokasi maupun dukungan jarak jauh di seluruh negeri.</p>
+                    
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <i class="fab fa-whatsapp"></i>
+                            <div>
+                                <h4>WhatsApp</h4>
+                                <p class="lang-en">Fastest way to reach me</p>
+                                <p class="lang-id" style="display:none;">Cara tercepat menghubungi saya</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p class="lang-en">For detailed project discussions</p>
+                                <p class="lang-id" style="display:none;">Untuk diskusi proyek detail</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4 class="lang-en">Service Area</h4>
+                                <h4 class="lang-id" style="display:none;">Area Layanan</h4>
+                                <p class="lang-en">Indonesia-wide (remote) / Local on-site available</p>
+                                <p class="lang-id" style="display:none;">Seluruh Indonesia (jarak jauh) / Lokal di lokasi tersedia</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <label class="lang-en">Your Name</label>
+                            <label class="lang-id" style="display:none;">Nama Anda</label>
+                            <input type="text" placeholder="" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="lang-en">WhatsApp Number</label>
+                            <label class="lang-id" style="display:none;">Nomor WhatsApp</label>
+                            <input type="tel" placeholder="" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="lang-en">What do you need help with?</label>
+                            <label class="lang-id" style="display:none;">Apa yang perlu bantuan?</label>
+                            <select required>
+                                <option value="" class="lang-en">Select a service...</option>
+                                <option value="" class="lang-id" style="display:none;">Pilih layanan...</option>
+                                <option value="wifi" class="lang-en">WiFi / Network Issues</option>
+                                <option value="wifi" class="lang-id" style="display:none;">Masalah WiFi / Jaringan</option>
+                                <option value="website" class="lang-en">Website Building</option>
+                                <option value="website" class="lang-id" style="display:none;">Pembuatan Website</option>
+                                <option value="remote" class="lang-en">Remote IT Support</option>
+                                <option value="remote" class="lang-id" style="display:none;">Dukungan IT Jarak Jauh</option>
+                                <option value="english" class="lang-en">English Lessons</option>
+                                <option value="english" class="lang-id" style="display:none;">Pelajaran Bahasa Inggris</option>
+                                <option value="arabic" class="lang-en">Arabic Lessons</option>
+                                <option value="arabic" class="lang-id" style="display:none;">Pelajaran Bahasa Arab</option>
+                                <option value="other" class="lang-en">Something Else</option>
+                                <option value="other" class="lang-id" style="display:none;">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="lang-en">Tell me about your situation</label>
+                            <label class="lang-id" style="display:none;">Ceritakan situasi Anda</label>
+                            <textarea placeholder="" class="lang-en"></textarea>
+                            <textarea placeholder="" class="lang-id" style="display:none;"></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn lang-en">Send Message</button>
+                        <button type="submit" class="submit-btn lang-id" style="display:none;">Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3><i class="fas fa-network-wired"></i> MI-Services</h3>
+                <p class="lang-en">Reliable tech support for hotels, hostels, and small businesses across Indonesia. One person, many skills, fair prices.</p>
+                <p class="lang-id" style="display:none;">Dukungan teknologi yang dapat diandalkan untuk hotel, hostel, dan bisnis kecil di seluruh Indonesia. Satu orang, banyak keterampilan, harga wajar.</p>
+            </div>
+            <div class="footer-links">
+                <h4 class="lang-en">Services</h4>
+                <h4 class="lang-id" style="display:none;">Layanan</h4>
+                <ul>
+                    <li><a href="#services" class="lang-en">WiFi Solutions</a><a href="#services" class="lang-id" style="display:none;">Solusi WiFi</a></li>
+                    <li><a href="#services" class="lang-en">Website Building</a><a href="#services" class="lang-id" style="display:none;">Pembuatan Website</a></li>
+                    <li><a href="#remote" class="lang-en">Remote Support</a><a href="#remote" class="lang-id" style="display:none;">Dukungan Jarak Jauh</a></li>
+                    <li><a href="#languages" class="lang-en">Language Classes</a><a href="#languages" class="lang-id" style="display:none;">Kelas Bahasa</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4 class="lang-en">Quick Links</h4>
+                <h4 class="lang-id" style="display:none;">Tautan Cepat</h4>
+                <ul>
+                    <li><a href="#services" class="lang-en">How It Works</a><a href="#services" class="lang-id" style="display:none;">Cara Kerja</a></li>
+                    <li><a href="#contact" class="lang-en">Contact</a><a href="#contact" class="lang-id" style="display:none;">Kontak</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p> MI-Services. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Language Switching
+        function setLanguage(lang) {
+            const enElements = document.querySelectorAll('.lang-en');
+            const idElements = document.querySelectorAll('.lang-id');
+            const btnEn = document.getElementById('btn-en');
+            const btnId = document.getElementById('btn-id');
+            const htmlRoot = document.getElementById('html-root');
+            
+            if (lang === 'id') {
+                enElements.forEach(el => el.style.display = 'none');
+                idElements.forEach(el => el.style.display = '');
+                btnEn.classList.remove('active');
+                btnId.classList.add('active');
+                htmlRoot.lang = 'id';
+            } else {
+                enElements.forEach(el => el.style.display = '');
+                idElements.forEach(el => el.style.display = 'none');
+                btnId.classList.remove('active');
+                btnEn.classList.add('active');
+                htmlRoot.lang = 'en';
+            }
+            
+            localStorage.setItem('mi-services-lang', lang);
+        }
+        
+        // Load saved language preference
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('mi-services-lang');
+            if (savedLang) {
+                setLanguage(savedLang);
+            }
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+            }
+        });
+        
+        // Form submission
+        function handleSubmit(e) {
+            e.preventDefault();
+            const currentLang = document.getElementById('btn-id').classList.contains('active') ? 'id' : 'en';
+            if (currentLang === 'id') {
+                alert('Terima kasih! Pesan Anda telah dikirim. Saya akan menghubungi Anda segera melalui WhatsApp.');
+            } else {
+                alert('Thank you! Your message has been sent. I will contact you soon via WhatsApp.');
+            }
+            e.target.reset();
+        }
+        
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.style.position = 'absolute';
+            navLinks.style.top = '100%';
+            navLinks.style.left = '0';
+            navLinks.style.right = '0';
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.background = 'white';
+            navLinks.style.padding = '20px';
+            navLinks.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+        });
+    </script>
+</body>
+</html>"""
+
+# Save the file
+output_path = "/mnt/agents/output/mi-services-website.html"
+with open(output_path, "w", encoding="utf-8") as f:
+    f.write(website_html)
+
+print(f"Website saved to: {output_path}")
+print(f"File size: {len(website_html)} characters")
